@@ -65,20 +65,49 @@ extension Sequence where Self.Element: IdentifiableType & Equatable {
     
 }
 
-
 //: データソース
-let src = [Animal(id: "0", name: "いぬ"),
+let src1 = [Animal(id: "0", name: "いぬ"),
            Animal(id: "1", name: "ねこ"),
            Animal(id: "2", name: "コアラ"),
            Animal(id: "3", name: "クジラ"),
            Animal(id: "4", name: "うさぎ"),
            Animal(id: "5", name: "ぱんだ")]
+
 //: 変更データ
-let diffs = [Animal(id: "0", name: "かぴばら")]
+let diffs1 = [Animal(id: "0", name: "かぴばら")]
 
 //: プロトコルで指定するケース
-let result1 = src.updateDiff(diffs)
+let result1 = src1.updateDiff(diffs1)
 
+/*:
+ 
+    **差分内容**
+    diff: 0 Animal(id: "0", name: "いぬ") >>>> 0 Animal(id: "0", name: "かぴばら")
+
+    **適用前**
+
+    [
+        __lldb_expr_16.Animal(id: "0", name: "いぬ"),
+        __lldb_expr_16.Animal(id: "1", name: "ねこ"),
+        __lldb_expr_16.Animal(id: "2", name: "コアラ"),
+        __lldb_expr_16.Animal(id: "3", name: "クジラ"),
+        __lldb_expr_16.Animal(id: "4", name: "うさぎ"),
+        __lldb_expr_16.Animal(id: "5", name: "ぱんだ")
+    ]
+ 
+    **適用後**
+ 
+    [
+        __lldb_expr_13.Animal(id: "0", name: "かぴばら"),
+        __lldb_expr_13.Animal(id: "1", name: "ねこ"),
+        __lldb_expr_13.Animal(id: "2", name: "コアラ"),
+        __lldb_expr_13.Animal(id: "3", name: "クジラ"),
+        __lldb_expr_13.Animal(id: "4", name: "うさぎ"),
+        __lldb_expr_13.Animal(id: "5", name: "ぱんだ")
+    ]
+
+ 
+ */
 
 //: 2. キーパス方式
 extension Sequence where Self.Element: Equatable {
@@ -161,17 +190,48 @@ struct Food: Equatable {
 }
 
 //: データソース
-let src2 = [Food(id: "0", name: "いぬ"),
-           Food(id: "1", name: "ねこ"),
-           Food(id: "2", name: "コアラ"),
-           Food(id: "3", name: "クジラ"),
-           Food(id: "4", name: "うさぎ"),
-           Food(id: "5", name: "ぱんだ")]
+let src2 = [Food(id: "0", name: "🍙"),
+           Food(id: "1", name: "🍔"),
+           Food(id: "2", name: "🍝"),
+           Food(id: "3", name: "🥗"),
+           Food(id: "4", name: "🍊"),
+           Food(id: "5", name: "🍛")]
 //: 変更データ
-let diffs2 = [Food(id: "0", name: "かぴばら")]
+let diffs2 = [Food(id: "0", name: "🍱")]
 
 //: キーパス指定するケース
 let result2 = src2.apply(diffs: diffs2, atPrimaryKey: \Food.id)
+
+
+
+/*:
+ 
+    **差分内容**
+    diff: 0 Food(id: "0", name: "🍙") >>>> Food(id: "0", name: "🍱")
+ 
+    **適用前**
+ 
+     [
+        __lldb_expr_20.Food(id: "0", name: "🍙"),
+        __lldb_expr_20.Food(id: "1", name: "🍔"),
+        __lldb_expr_20.Food(id: "2", name: "🍝"),
+        __lldb_expr_20.Food(id: "3", name: "🥗"),
+        __lldb_expr_20.Food(id: "4", name: "🍊"),
+        __lldb_expr_20.Food(id: "5", name: "🍛")
+     ]
+ 
+     **適用後**
+ 
+     [
+        __lldb_expr_20.Food(id: "0", name: "🍱"),
+        __lldb_expr_20.Food(id: "1", name: "🍔"),
+        __lldb_expr_20.Food(id: "2", name: "🍝"),
+        __lldb_expr_20.Food(id: "3", name: "🥗"),
+        __lldb_expr_20.Food(id: "4", name: "🍊"),
+        __lldb_expr_20.Food(id: "5", name: "🍛")
+     ]
+ 
+ */
 
 
 //: [Next](@next)
